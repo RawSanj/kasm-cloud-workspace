@@ -13,8 +13,6 @@ services:
       - "traefik.http.routers.proxy.rule=Host(`proxy.kasmx.dedyn.io`)"
       - "traefik.http.services.proxy.loadbalancer.server.port=8080"
       - "traefik.http.routers.proxy.service=proxy"
-      - "traefik.http.routers.proxy.middlewares=basic-auth-global"
-      - "traefik.http.middlewares.basic-auth-global.basicauth.users=${TRAEFIK_CREDENTIALS}"
     environment:
       - "DESEC_TOKEN=${DESEC_TOKEN}"
     ports:
@@ -22,8 +20,8 @@ services:
       - "8080"
       - "443:443"
     volumes:
-      - ${HOME_LAB_DIR}/main/traefik:/etc/traefik
-      - ${HOME_LAB_DIR}/main/letsencrypt:/letsencrypt
+      - ${HOME_LAB_DIR}/traefik:/etc/traefik
+      - ${HOME_LAB_DIR}/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
 
   ## Watchtower upgrades services automatically (optional)
