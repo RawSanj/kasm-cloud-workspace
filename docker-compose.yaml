@@ -10,7 +10,7 @@ services:
     networks:
       - main-proxy-network
     labels:
-      - traefik.http.routers.proxy.rule=Host(`proxy.rawhost.duckdns.org`)
+      - traefik.http.routers.proxy.rule=Host(`proxy.kasmx.dedyn.io`)
       - traefik.http.services.proxy.loadbalancer.server.port=8080
       - traefik.http.routers.proxy.service=proxy
     environment:
@@ -49,7 +49,7 @@ services:
     networks:
       - main-proxy-network
     labels:
-      - traefik.http.routers.portainer.rule=Host(`docker.rawhost.duckdns.org`)
+      - traefik.http.routers.portainer.rule=Host(`docker.kasmx.dedyn.io`)
       - traefik.http.services.portainer.loadbalancer.server.port=9000
       - traefik.http.routers.portainer.service=portainer
     ports:
@@ -65,16 +65,16 @@ services:
     networks:
       - main-proxy-network
     labels:
-      # kasm web labels - used after installation
-      - traefik.http.routers.kasm.rule=Host(`rawhost.duckdns.org`)
-      - traefik.http.routers.kasm.entryPoints=websecure
-      - traefik.http.routers.kasm.tls=true
-      - traefik.http.routers.kasm.service=kasm
-      - traefik.http.services.kasm.loadbalancer.server.port=443
-      - traefik.http.services.kasm.loadbalancer.serverstransport=ignoreCertTransport@file
-      - traefik.http.services.kasm.loadbalancer.server.scheme=https
-      # kasm installer labels - used for installation process
-      - traefik.http.routers.kasmins.rule=Host(`installer.rawhost.duckdns.org`)
+      # Uncomment after installation - kasm web labels - used for normal access
+#      - traefik.http.routers.kasm.rule=Host(`kasmx.dedyn.io`)
+#      - traefik.http.routers.kasm.entryPoints=websecure
+#      - traefik.http.routers.kasm.tls=true
+#      - traefik.http.routers.kasm.service=kasm
+#      - traefik.http.services.kasm.loadbalancer.server.port=443
+#      - traefik.http.services.kasm.loadbalancer.serverstransport=ignoreCertTransport@file
+#      - traefik.http.services.kasm.loadbalancer.server.scheme=https
+      # Delete after installation - kasm installer labels - used for installation process
+      - traefik.http.routers.kasmins.rule=Host(`installer.kasmx.dedyn.io`)
       - traefik.http.routers.kasmins.entryPoints=websecure
       - traefik.http.routers.kasmins.tls=true
       - traefik.http.routers.kasmins.service=kasmins

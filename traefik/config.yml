@@ -5,10 +5,10 @@ http:
 
 #  routers:
 #    routerbar:
-#      rule: "Host(`rawhost.duckdns.org`) || Host(`*.rawhost.duckdns.org`)"
+#      rule: "Host(`kasmx.dedyn.io`) || Host(`*.kasmx.dedyn.io`)"
 #      tls:
 #        certResolver: desecResolver
 #        domains:
-#          - main: "rawhost.duckdns.org"
+#          - main: "kasmx.dedyn.io"
 #            sans:
-#              - "*.rawhost.duckdns.org"
+#              - "*.kasmx.dedyn.io"
