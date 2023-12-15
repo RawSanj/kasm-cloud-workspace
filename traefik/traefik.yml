@@ -30,7 +30,7 @@ entryPoints:
     address: ":443"
     http:
       tls:
-        certresolver: desecresolver
+        certResolver: desecResolver
         domains:
           - main: "kasmx.dedyn.io"
             sans:
@@ -48,9 +48,9 @@ providers:
     watch: true
 
 certificatesResolvers:
-  desecresolver:
+  desecResolver:
     acme:
-      dnschallenge:
+      dnsChallenge:
         provider: desec
       email: ADD_EMAIL@gmail.com
       storage: /letsencrypt/acme.json
