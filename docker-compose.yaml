@@ -1,0 +1,103 @@
+version: '3.9'
+
+services:
+
+# Traefik Reverse Proxy for routing various applications
+  reverse-proxy:
+    image: traefik:v2.10.5 # The official Traefik docker image
+    container_name: traefik
+    restart: unless-stopped
+    networks:
+      - main-proxy-network
+    labels:
+      - "traefik.http.routers.proxy.rule=Host(`proxy.kasmx.dedyn.io`)"
+      - "traefik.http.services.proxy.loadbalancer.server.port=8080"
+      - "traefik.http.routers.proxy.service=proxy"
+      - "traefik.http.routers.proxy.middlewares=basic-auth-global"
+      - "traefik.http.middlewares.basic-auth-global.basicauth.users=${TRAEFIK_CREDENTIALS}"
+    environment:
+      - "DESEC_TOKEN=${DESEC_TOKEN}"
+    ports:
+      - "80:80"
+      - "8080"
+      - "443:443"
+    volumes:
+      - ${HOME_LAB_DIR}/main/traefik:/etc/traefik
+      - ${HOME_LAB_DIR}/main/letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+
+  ## Watchtower upgrades services automatically (optional)
+  watchtower:
+    restart: unless-stopped
+    networks:
+      - main-proxy-network
+    image: containrrr/watchtower
+    container_name: watchtower
+    labels:
+      - traefik.enabled=false
+    environment:
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: 7200 # checks for updates every two hours
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  ## portainer dashboard for docker-containers
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    networks:
+      - main-proxy-network
+    labels:
+      - traefik.http.routers.portainer.rule=Host(`docker.kasmx.dedyn.io`)
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+      - traefik.http.routers.portainer.service=portainer
+    ports:
+      - "9000"
+    volumes:
+      - ${HOME_LAB_DIR}/stateful-data/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  kasm:
+    image: lscr.io/linuxserver/kasm:latest
+    container_name: kasm
+    restart: unless-stopped
+    networks:
+      - main-proxy-network
+    labels:
+      # kasm web labels - used after installation
+      - traefik.http.routers.kasm.rule=Host(`kasmx.dedyn.io`)
+      - traefik.http.routers.kasm.entryPoints=websecure
+      - traefik.http.routers.kasm.tls=true
+      - traefik.http.routers.kasm.service=kasm
+      - traefik.http.services.kasm.loadbalancer.server.port=443
+      - traefik.http.services.kasm.loadbalancer.serverstransport=ignoreCertTransport@file
+      - traefik.http.services.kasm.loadbalancer.server.scheme=https
+      # kasm installer labels - used for installation process
+      - traefik.http.routers.kasmins.rule=Host(`installer.kasmx.dedyn.io`)
+      - traefik.http.routers.kasmins.entryPoints=websecure
+      - traefik.http.routers.kasmins.tls=true
+      - traefik.http.routers.kasmins.service=kasmins
+      - traefik.http.services.kasmins.loadbalancer.server.port=3000
+      - traefik.http.services.kasmins.loadbalancer.server.scheme=https
+      - traefik.http.services.kasmins.loadbalancer.serverstransport=ignoreCertTransport@file
+    privileged: true
+    environment:
+      - KASM_PORT=443
+      - DOCKER_HUB_USERNAME=USER #optional
+      - DOCKER_HUB_PASSWORD=PASS #optional
+      - DOCKER_MTU=1500 #optional
+    volumes:
+      - ${HOME_LAB_DIR}/stateful-data/kasm/data:/opt
+      - ${HOME_LAB_DIR}/stateful-data/kasm/profiles:/profiles #optional
+      - /dev/input:/dev/input #optional
+      - /run/udev/data:/run/udev/data #optional
+    ports:
+      - "3000"
+      - "443"
+
+networks:
+  main-proxy-network:
+    name: mainProxyNetwork
+    driver: bridge

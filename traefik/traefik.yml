@@ -1,0 +1,56 @@
+### STATIC CONFIG FILE
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+serversTransport:
+  insecureSkipVerify: true
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+
+log:
+  level: DEBUG
+
+accessLog:
+  filePath: "/logs/access.log"
+  bufferingSize: 100
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certresolver: desecresolver
+        domains:
+          - main: "kasmx.dedyn.io"
+            sans:
+              - "*.kasmx.dedyn.io"
+providers:
+  providersThrottleDuration: 10s
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: true
+    network: mainProxyNetwork
+    swarmMode: false
+    watch: true
+  file:
+    filename: "/etc/traefik/config.yml"
+    watch: true
+
+certificatesResolvers:
+  desecresolver:
+    acme:
+      dnschallenge:
+        provider: desec
+      email: ADD_EMAIL@gmail.com
+      storage: /letsencrypt/acme.json
