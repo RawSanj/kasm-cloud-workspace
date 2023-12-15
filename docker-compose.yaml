@@ -10,10 +10,9 @@ services:
     networks:
       - main-proxy-network
     labels:
-      - "traefik.http.routers.proxy.rule=Host(`proxy.kasmx.dedyn.io`)"
-      - "traefik.http.services.proxy.loadbalancer.server.port=8080"
-      - "traefik.http.routers.proxy.service=proxy"
-      - "traefik.http.routers.proxy.tls.certResolver=desecResolver"
+      - traefik.http.routers.proxy.rule=Host(`proxy.kasmx.dedyn.io`)
+      - traefik.http.services.proxy.loadbalancer.server.port=8080
+      - traefik.http.routers.proxy.service=proxy
     environment:
       - "DESEC_TOKEN=${DESEC_TOKEN}"
     ports:
@@ -52,7 +51,6 @@ services:
       - traefik.http.routers.portainer.rule=Host(`docker.kasmx.dedyn.io`)
       - traefik.http.services.portainer.loadbalancer.server.port=9000
       - traefik.http.routers.portainer.service=portainer
-      - traefik.http.routers.portainer.tls.certResolver=desecResolver
     ports:
       - "9000"
     volumes:
@@ -70,7 +68,6 @@ services:
       - traefik.http.routers.kasm.rule=Host(`kasmx.dedyn.io`)
       - traefik.http.routers.kasm.entryPoints=websecure
       - traefik.http.routers.kasm.tls=true
-      - traefik.http.routers.kasm.tls.certResolver=desecResolver
       - traefik.http.routers.kasm.service=kasm
       - traefik.http.services.kasm.loadbalancer.server.port=443
       - traefik.http.services.kasm.loadbalancer.serverstransport=ignoreCertTransport@file
@@ -79,7 +76,6 @@ services:
       - traefik.http.routers.kasmins.rule=Host(`installer.kasmx.dedyn.io`)
       - traefik.http.routers.kasmins.entryPoints=websecure
       - traefik.http.routers.kasmins.tls=true
-      - traefik.http.routers.kasmins.tls.certResolver=desecResolver
       - traefik.http.routers.kasmins.service=kasmins
       - traefik.http.services.kasmins.loadbalancer.server.port=3000
       - traefik.http.services.kasmins.loadbalancer.server.scheme=https

@@ -28,13 +28,7 @@ entryPoints:
           scheme: https
   websecure:
     address: ":443"
-    http:
-      tls:
-        certResolver: desecResolver
-        domains:
-          - main: "kasmx.dedyn.io"
-            sans:
-              - "*.kasmx.dedyn.io"
+
 providers:
   providersThrottleDuration: 10s
   docker:
