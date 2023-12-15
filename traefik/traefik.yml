@@ -28,7 +28,13 @@ entryPoints:
           scheme: https
   websecure:
     address: ":443"
-
+    http:
+      tls:
+        certResolver: desecResolver
+        domains:
+          - main: "rawhost.duckdns.org"
+            sans:
+              - "*.rawhost.duckdns.org"
 providers:
   providersThrottleDuration: 10s
   docker:
@@ -45,6 +51,6 @@ certificatesResolvers:
   desecResolver:
     acme:
       dnsChallenge:
-        provider: desec
+        provider: duckdns
       email: ADD_EMAIL@gmail.com
       storage: /letsencrypt/acme.json
