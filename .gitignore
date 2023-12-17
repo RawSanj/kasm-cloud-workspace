@@ -1,3 +1,4 @@
 .idea
 .env
 letsencrypt/acme.json
+stateful-data
