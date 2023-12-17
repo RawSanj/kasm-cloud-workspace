@@ -13,6 +13,7 @@ services:
       - traefik.http.routers.proxy.rule=Host(`proxy.kasmx.dedyn.io`)
       - traefik.http.routers.proxy.tls.certresolver=desecResolver
       - traefik.http.routers.proxy.service=proxy
+      - traefik.http.routers.proxy.entryPoints=websecure
       - traefik.http.services.proxy.loadbalancer.server.port=8080
       - traefik.http.routers.proxy.tls.domains[0].main=kasmx.dedyn.io
       - traefik.http.routers.proxy.tls.domains[0].sans=*.kasmx.dedyn.io
@@ -54,6 +55,7 @@ services:
     labels:
       - traefik.http.routers.portainer.rule=Host(`docker.kasmx.dedyn.io`)
       - traefik.http.routers.portainer.service=portainer
+      - traefik.http.routers.portainer.entryPoints=websecure
       - traefik.http.routers.portainer.tls.certresolver=desecResolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000
       - traefik.http.routers.portainer.tls.domains[0].main=kasmx.dedyn.io
