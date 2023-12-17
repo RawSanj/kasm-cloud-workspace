@@ -68,13 +68,14 @@ services:
       - main-proxy-network
     labels:
       # Uncomment after installation - kasm web labels - used for normal access
-#      - traefik.http.routers.kasm.rule=Host(`kasmx.dedyn.io`)
-#      - traefik.http.routers.kasm.entryPoints=websecure
-#      - traefik.http.routers.kasm.tls=true
-#      - traefik.http.routers.kasm.service=kasm
-#      - traefik.http.services.kasm.loadbalancer.server.port=443
-#      - traefik.http.services.kasm.loadbalancer.serverstransport=ignoreCertTransport@file
-#      - traefik.http.services.kasm.loadbalancer.server.scheme=https
+      - traefik.http.routers.kasm.rule=Host(`kasmx.dedyn.io`)
+      - traefik.http.routers.kasm.entryPoints=websecure
+      - traefik.http.routers.kasm.tls=true
+      - traefik.http.routers.kasm.tls.certresolver=desecResolver
+      - traefik.http.routers.kasm.service=kasm
+      - traefik.http.services.kasm.loadbalancer.server.port=443
+      - traefik.http.services.kasm.loadbalancer.serverstransport=ignoreCertTransport@file
+      - traefik.http.services.kasm.loadbalancer.server.scheme=https
       # Delete after installation - kasm installer labels - used for installation process
       - traefik.http.routers.kasmins.rule=Host(`installer.kasmx.dedyn.io`)
       - traefik.http.routers.kasmins.entryPoints=websecure
