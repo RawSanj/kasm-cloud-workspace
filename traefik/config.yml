@@ -3,6 +3,16 @@ http:
     ignoreCertTransport:
       insecureSkipVerify: true
 
+tls:
+  stores:
+    default:
+      defaultGeneratedCert:
+        resolver: desecResolver
+        domain:
+          main: "kasmx.dedyn.io"
+          sans:
+            - "*.kasmx.dedyn.io"
+
 #  routers:
 #    routerbar:
 #      rule: "Host(`kasmx.dedyn.io`) || Host(`*.kasmx.dedyn.io`)"
