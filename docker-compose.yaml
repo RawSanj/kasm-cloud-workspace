@@ -70,7 +70,7 @@ services:
     networks:
       - main-proxy-network
     labels:
-      # Uncomment after installation - kasm web labels - used for normal access
+      # To be kept in use after installation - kasm web labels - used for normal access
       - traefik.http.routers.kasm.rule=Host(`kasmx.dedyn.io`)
       - traefik.http.routers.kasm.entryPoints=websecure
       - traefik.http.routers.kasm.tls=true
@@ -78,7 +78,7 @@ services:
       - traefik.http.services.kasm.loadbalancer.server.port=443
       - traefik.http.services.kasm.loadbalancer.serverstransport=ignoreCertTransport@file
       - traefik.http.services.kasm.loadbalancer.server.scheme=https
-      # Delete after installation - kasm installer labels - used for installation process
+      # Can be deleted after installation - kasm installer labels - used for installation process
       - traefik.http.routers.kasmins.rule=Host(`installer.kasmx.dedyn.io`)
       - traefik.http.routers.kasmins.entryPoints=websecure
       - traefik.http.routers.kasmins.tls=true
