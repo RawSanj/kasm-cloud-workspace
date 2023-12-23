@@ -32,9 +32,9 @@ entryPoints:
       tls:
         certResolver: desecResolver
         domains:
-          - main: "kasmx.dedyn.io"
+          - main: "apps.dedyn.io"
             sans:
-              - "*.kasmx.dedyn.io"
+              - "*.apps.dedyn.io"
 providers:
   providersThrottleDuration: 10s
   docker:

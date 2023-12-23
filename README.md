@@ -26,7 +26,7 @@ Cloud - [Ampere A1 Compute Instance](https://www.oracle.com/cloud/compute/arm).
 #### 1. Create a FREE Domain in https://desec.io:
 
 1. Create an account in https://desec.io
-2. Create a new Domain `YOUR_DOMAIN.dedyn.io` under https://desec.io/domains - Example: `kasmx.dedyn.io`
+2. Create a new Domain `YOUR_DOMAIN.dedyn.io` under https://desec.io/domains - Example: `apps.dedyn.io`
 3. Add multiple A records in `YOUR_DOMAIN.dedyn.io` and point to the Public IP Address of the instance.
 
    | Type | Subname     | IP Address         | TTL (seconds) | Comments                                   |
@@ -63,14 +63,14 @@ export WORKING_DIR="/path/to/kasm-cloud-workspace"
 1. Edit traefik/traefik.yml and set `YOUR_DOMAIN.dedyn.io` in `entryPoints.websecure.http.tls.domains` section and email for certificate expiry notifications from [Let's Encrypt](https://letsencrypt.org)
    ```shell
    # Run below command to replace exiting domain with your domain
-   sed -i 's/kasmx.dedyn.io/dc.dedyn.io/g' traefik/traefik.yml
+   sed -i 's/apps.dedyn.io/YOUR_DOMAIN.dedyn.io/g' traefik/traefik.yml
    # Run below command to replace exiting email with your email
    sed -i 's/ADD_EMAIL@gmail.com/YOUR_EMAIL@example.com/g' traefik/traefik.yml
    ```
 2. Edit traefik/config.yml and set `YOUR_DOMAIN.dedyn.io` in `tls.stores.default.defaultGeneratedCert.domains` section.
    ```shell
    # Run below command to replace exiting domain with your domain
-   sed -i 's/kasmx.dedyn.io/dc.dedyn.io/g' traefik/config.yml
+   sed -i 's/apps.dedyn.io/YOUR_DOMAIN.dedyn.io/g' traefik/config.yml
    ```
 
 #### 4. Run docker & Install KASM:
@@ -83,7 +83,7 @@ export WORKING_DIR="/path/to/kasm-cloud-workspace"
 2. Install and Run [KASM](https://kasmweb.com):
    1. Visit `https://installer.YOUR_DOMAIN.dedyn.io` to setup KASM credentials and Workspaces. You can add more Workspaces later via Admin UI.
    2. This will download several Docker Containers used by KASM and the Workspaces Containers in Docker-in-Docker mode.
-   3. Once installation is completed, visit `https://YOUR_DOMAIN.dedyn.io` and login to start using KASM Workspaces.
+   3. Once installation is completed, visit `https://kasm.YOUR_DOMAIN.dedyn.io` and login to start using KASM Workspaces.
 
 ![KASM KDE Desktop](images/kasm-kde-desktop.jpg "KASM KDE Desktop")
 

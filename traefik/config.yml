@@ -9,6 +9,6 @@ tls:
       defaultGeneratedCert:
         resolver: desecResolver
         domain:
-          main: "kasmx.dedyn.io"
+          main: "apps.dedyn.io"
           sans:
-            - "*.kasmx.dedyn.io"
+            - "*.apps.dedyn.io"
